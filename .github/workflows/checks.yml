@@ -1,0 +1,33 @@
+name: Checks
+
+# Runs on every pull request, and on every pushed branch except main, so a contractor sees the result
+# before anyone reviews. It needs no secrets: the site builds and the guardrails run without any keys.
+on:
+  pull_request:
+  push:
+    branches-ignore: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Guardrails (copy rules, phone number, forms, tracking, routes, secrets)
+        run: npm run guardrails
+      - name: Guardrails self-test (the checks catch what they should)
+        run: npm run test:guardrails
+      - name: Typecheck
+        run: npx tsc --noEmit
+      - name: Production build
+        run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"

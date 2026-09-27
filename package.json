@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "guardrails": "node scripts/guardrails.mjs",
+    "test:guardrails": "node scripts/test-guardrails.mjs",
+    "check": "npm run guardrails && npm run test:guardrails && tsc --noEmit && next build"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

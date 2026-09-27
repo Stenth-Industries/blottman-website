@@ -26,6 +26,18 @@ the server only logs the lead to the console and nothing is emailed, saved or se
   repo. You will not be given them and do not need them.
 - If a build or deploy looks blocked or stale, tell the owner. Do not try to work around it.
 
+## Automatic checks
+
+`npm run check` runs everything a pull request must pass, and GitHub runs the same checks on every branch you push:
+
+- **Guardrails** (`scripts/guardrails.mjs`): the copy rules above, the phone number, no hardcoded numbers, every live route present,
+  form honeypots, one Ads conversion call, the Twilio signature checks, and no secrets or env files committed.
+- **Guardrail self-test** (`scripts/test-guardrails.mjs`): breaks a copy of the site 14 ways to prove the guardrails catch it.
+- Typecheck and production build.
+
+If a guardrail flags a line you believe is fine, add `// guardrail-ok: <reason>` on that line and explain it in the pull request.
+**Do not edit the guardrail scripts to make a check pass**; a reviewer will treat that as a red flag. Ask the owner instead.
+
 ## Pages
 
 `/` (home) and one page per charge: `/speeding`, `/careless-driving`, `/stunt-driving`, `/fail-to-stop`,
