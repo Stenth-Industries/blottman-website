@@ -25,6 +25,7 @@ the server only logs the lead to the console and nothing is emailed, saved or se
 - Production keys (lead delivery, phone screening, Google Ads tags) live in the Vercel project settings, not in this
   repo. You will not be given them and do not need them.
 - If a build or deploy looks blocked or stale, tell the owner. Do not try to work around it.
+- Every pull request shows a **Checks** result from GitHub. It must be green before the owner reviews. If it is red, read the message; it names the file and the rule.
 
 ## Automatic checks
 
