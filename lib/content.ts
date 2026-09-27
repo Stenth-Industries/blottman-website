@@ -527,32 +527,6 @@ export const VIDEO_TESTIMONIALS = Array.from({ length: 9 }, (_, i) => ({
 // reintroduce per-client result cards. Genuine third-party Google reviews (below)
 // are kept; firm-authored outcome claims are not.
 
-// 2 before/after case studies (dormant — not rendered; kept for reference only).
-export const CASE_STUDIES = [
-  {
-    title: "From licence suspension to back on the road",
-    before: {
-      label: "Before",
-      points: ["Stunt-driving charge (50+ km/h over)", "Facing 7-day roadside suspension + 6 demerit points", "Insurance renewal at risk"],
-    },
-    after: {
-      label: "After",
-      points: ["Charge reduced to a minor speeding offence", "Zero demerit points recorded", "Licence kept — no insurance increase"],
-    },
-  },
-  {
-    title: "From a record-ending charge to a clean abstract",
-    before: {
-      label: "Before",
-      points: ["Careless driving after a collision", "Risk of conviction on permanent record", "Court date scheduled, client unable to attend"],
-    },
-    after: {
-      label: "After",
-      points: ["Charge dismissed at trial", "We attended court — client never appeared", "Driving record stayed clean"],
-    },
-  },
-];
-
 // FAQ — the biggest objection handles for traffic-ticket defence.
 export const FAQS = [
   {
