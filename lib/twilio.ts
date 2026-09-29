@@ -76,18 +76,26 @@ export async function logCallEvent(event: Record<string, unknown>): Promise<void
   console.log("[voice]", JSON.stringify(event));
   const url = process.env.CALL_LOG_WEBHOOK_URL;
   if (!url) return;
+  const started = Date.now();
   try {
     // This runs INSIDE the live call: the caller is on the line until we return TwiML.
-    // The receiver answers immediately, but if it is ever slow or down we give up
-    // after 1.2s rather than let a logging hiccup become dead air for a real client.
+    // The receiver normally answers in well under 200ms (measured), but if it is ever
+    // slow or down we give up rather than let a logging hiccup become dead air for a
+    // real client. 2.5s (was 1.2s) gives a genuinely slow cross-network request more
+    // room without meaningfully lengthening the call for the rare case it is hit.
     await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(event),
-      signal: AbortSignal.timeout(1200),
+      signal: AbortSignal.timeout(2500),
     });
+    console.log("[voice] call log delivered in", Date.now() - started, "ms");
   } catch (err) {
-    console.error("[voice] call log fan-out failed (non-fatal)", err);
+    // Named + timed so a live `vercel logs --follow` tells timeout apart from a real
+    // network/DNS failure, and how close it ran to the budget above.
+    const name = err instanceof Error ? err.name : typeof err;
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("[voice] call log fan-out failed (non-fatal)", name, msg, "after", Date.now() - started, "ms");
   }
 }
 
