@@ -7,6 +7,7 @@ import Faq from "@/components/Faq";
 import QuickForm from "@/components/QuickForm";
 import QuoteForm from "@/components/QuoteForm";
 import FloatingActions from "@/components/FloatingActions";
+import LeadPopup from "@/components/LeadPopup";
 import Footer from "@/components/Footer";
 import OffenseDetails from "@/components/OffenseDetails";
 import { FAQS, SLUG_CHARGE, type TicketPage } from "@/lib/content";
@@ -49,6 +50,7 @@ export default function TicketLanding({ page }: { page: TicketPage }) {
       <Reveal><QuoteForm /></Reveal>
       <Footer />
       <FloatingActions />
+      <LeadPopup defaultCharge={SLUG_CHARGE[page.slug] ?? ""} />
     </main>
   );
 }
