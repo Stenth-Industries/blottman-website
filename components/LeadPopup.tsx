@@ -7,7 +7,9 @@ import ChargeSelect from "@/components/ChargeSelect";
 
 type Status = "idle" | "submitting" | "done" | "error";
 
-const DELAY_MS = 5000;
+// Long enough that a visitor who came to call or to use the hero form has
+// already done so; the popup is for the ones still reading without acting.
+const DELAY_MS = 10000;
 const SEEN_KEY = "bl_popup_seen";
 // Set by lib/lead-client.ts once this tab has delivered a lead.
 const LEAD_SENT_KEY = "bl_lead_sent";
@@ -126,6 +128,8 @@ export default function LeadPopup({ defaultCharge = "" }: { defaultCharge?: stri
     fd.set("name", name);
     fd.set("phone", phone);
     fd.set("charge", charge);
+    // Lets popup leads be counted apart from the two page forms.
+    fd.set("source", "popup");
     const company = new FormData(e.currentTarget).get("company");
     if (typeof company === "string" && company) fd.set("company", company);
 
@@ -145,13 +149,16 @@ export default function LeadPopup({ defaultCharge = "" }: { defaultCharge?: stri
   const fieldIcon = "pointer-events-none absolute inset-y-0 left-3.5 flex items-center sm:left-4 text-white/85";
 
   return (
-    <div className="fixed inset-0 z-[70] overflow-y-auto overscroll-contain">
+    // z-[55] sits under FloatingActions (z-[60]) on purpose: the Call button
+    // must stay visible and tappable while the popup is open.
+    <div className="fixed inset-0 z-[55] overflow-y-auto overscroll-contain">
       <div className="fixed inset-0 bg-black/70 animate-fade-in motion-reduce:animate-none" aria-hidden="true" />
 
       {/* Scrolls on very short screens; the card itself never clips, so the
-          charge list can hang past its edge. Tapping outside the card closes. */}
+          charge list can hang past its edge. Tapping outside the card closes.
+          Bottom padding below md keeps the card clear of the sticky Call bar. */}
       <div
-        className="relative flex min-h-full items-center justify-center p-3 sm:p-6"
+        className="relative flex min-h-full items-center justify-center p-3 pb-24 sm:p-6 sm:pb-24 md:pb-6"
         onClick={(e) => {
           if (e.target === e.currentTarget) close();
         }}
@@ -291,6 +298,13 @@ export default function LeadPopup({ defaultCharge = "" }: { defaultCharge?: stri
                   {error}
                 </p>
               )}
+
+              <p className="text-center text-[12.5px] leading-relaxed text-white/60">
+                Prefer to talk?{" "}
+                <a href={`tel:${PHONE_TEL}`} className="font-semibold text-gold hover:text-gold-soft">
+                  Call {PHONE_DISPLAY}
+                </a>
+              </p>
             </form>
           </>
         )}
