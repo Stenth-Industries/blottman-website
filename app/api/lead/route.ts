@@ -50,6 +50,8 @@ export async function POST(req: NextRequest) {
     gclid: str(form.get("gclid")),
     page: str(form.get("page")),
     leadId: str(form.get("leadId")),
+    // Which form sent it ("popup"; empty for the two page forms).
+    source: str(form.get("source")),
     stage,
     ts: new Date().toISOString(),
   };

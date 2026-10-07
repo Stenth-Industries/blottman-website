@@ -9,6 +9,7 @@ import Faq from "@/components/Faq";
 import QuickForm from "@/components/QuickForm";
 import QuoteForm from "@/components/QuoteForm";
 import FloatingActions from "@/components/FloatingActions";
+import LeadPopup from "@/components/LeadPopup";
 import NoInsuranceBanner from "@/components/NoInsuranceBanner";
 import Footer from "@/components/Footer";
 import { FAQS } from "@/lib/content";
@@ -54,6 +55,7 @@ export default function Home() {
       <Reveal><QuoteForm /></Reveal>
       <Footer />
       <FloatingActions />
+      <LeadPopup />
     </main>
   );
 }

@@ -82,7 +82,7 @@ for (const file of SRC.filter((f) => f !== "lib/content.ts")) {
 }
 
 // ---- 4. Forms and conversion tracking ----------------------------------------------------------------------
-for (const f of ["components/QuickForm.tsx", "components/QuoteForm.tsx"])
+for (const f of ["components/QuickForm.tsx", "components/QuoteForm.tsx", "components/LeadPopup.tsx"])
   check("form-honeypot-" + f, has(f) && read(f).includes('name="company"'), `${f}: the hidden honeypot field name="company" is gone. Bots will flood the leads.`);
 const lc = has("lib/lead-client.ts") ? read("lib/lead-client.ts") : "";
 check("gclid", lc.includes("getGclid("), "lib/lead-client.ts no longer captures the Google click id. Leads can no longer be tied to the ad that produced them.");
